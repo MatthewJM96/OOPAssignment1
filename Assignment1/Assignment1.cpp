@@ -34,23 +34,21 @@ double calculateBohrEnergy(unsigned int Z, unsigned int nInitial, unsigned int n
 
 // Gets an integer from the user within the defined range.
 int getint(int min = INT_MIN, int max = INT_MAX) {
-    // DON'T change this to be on the stack. By being able to actually destroy the integer completely 
-    // we remove an edge case where a previous input was, e.g., "123abc" and the current input is, e.g., 
-    // "def456". This current input would be considered valid and the integer 123 from the previous input
-    // would be returned.
-    int* possibleInteger = nullptr;
+    // By making this type the next size up from standard integers, can avoid edge cases where values in
+    // possibleInteger seem reasonable even though no value was necessarily obtained from the stringstream.
+    int64_t possibleInteger;
     std::string line;
     // Grab a line from the cin buffer.
     while (std::getline(std::cin, line)) {
-        possibleInteger = new int;
+        possibleInteger = std::numeric_limits<int64_t>::min();
 
         // Move string into a stringstream.
         std::stringstream input(line);
 
         // Grab as much integer as possible from the front of the stringstream's buffer.        
-        input >> *possibleInteger;
+        input >> possibleInteger;
         // Apply range bounds checks to resulting maybe-integer.
-        if (*possibleInteger >= min && *possibleInteger <= max) {
+        if (possibleInteger >= (int64_t)min && possibleInteger <= (int64_t)max) {
             // Make sure the stringstream's buffer is clear; "123abc" does not an integer make.
             std::string emptyTest;
             input >> emptyTest;
@@ -60,15 +58,11 @@ int getint(int min = INT_MIN, int max = INT_MAX) {
             }
         }
 
-        // Destroy integer and remove dangling pointer.
-        delete possibleInteger;
-        possibleInteger = nullptr;
-
         std::cout << "Sorry, the value you inputted was not valid." << std::endl;
         std::cout << "Input an integer between " << min << " and " << max << ":\n";
     }
     // Can only get here via the if block, but returning inside the if block makes VS throw a warning, I don't like warnings.
-    return *possibleInteger;
+    return possibleInteger;
 }
 
 // Compares two strings in a case-insensitive manner.
