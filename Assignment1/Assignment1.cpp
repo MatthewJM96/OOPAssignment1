@@ -36,11 +36,11 @@ double calculateBohrEnergy(unsigned int Z, unsigned int nInitial, unsigned int n
 int getint(int min = INT_MIN, int max = INT_MAX) {
     // By making this type the next size up from standard integers, can avoid edge cases where values in
     // possibleInteger seem reasonable even though no value was necessarily obtained from the stringstream.
-    int64_t possibleInteger;
+    long long possibleInteger;
     std::string line;
     // Grab a line from the cin buffer.
     while (std::getline(std::cin, line)) {
-        possibleInteger = std::numeric_limits<int64_t>::min();
+        possibleInteger = std::numeric_limits<long long>::min();
 
         // Move string into a stringstream.
         std::stringstream input(line);
@@ -48,7 +48,7 @@ int getint(int min = INT_MIN, int max = INT_MAX) {
         // Grab as much integer as possible from the front of the stringstream's buffer.        
         input >> possibleInteger;
         // Apply range bounds checks to resulting maybe-integer.
-        if (possibleInteger >= (int64_t)min && possibleInteger <= (int64_t)max) {
+        if (possibleInteger >= (long long)min && possibleInteger <= (long long)max) {
             // Make sure the stringstream's buffer is clear; "123abc" does not an integer make.
             std::string emptyTest;
             input >> emptyTest;
