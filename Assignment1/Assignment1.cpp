@@ -16,7 +16,7 @@ enum class EnergyType {
 };
 
 // Rydberg constant in electron-volts.
-const double RYDBERG_CONSTANT = 13.60569300984;
+const double RYDBERG_CONSTANT = 13.6;
 
 // Electron-volt to joules constant.
 const double EV_TO_JOULES = 1.6e-19;
